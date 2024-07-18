@@ -12,14 +12,13 @@ import za.co.protogen.domain.Car;
 
 /**
  *
- * @author makox
- */
+ * @aut**/
 public class Application {
        
    
     public static void main(String[] args) {
-        
-        
+
+        //SpringApplication.run(Application.class, args);
         CarService carService = new CarServiceImpl();
 
         // Create and add cars
