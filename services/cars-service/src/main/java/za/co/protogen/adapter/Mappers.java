@@ -1,7 +1,7 @@
 package za.co.protogen.adapter;
 
 import org.springframework.stereotype.Component;
-import za.co.protogen.model.Car;
+import za.co.protogen.persistence.Car;
 import za.co.protogen.util.Constants;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class Mappers {
 
-    public Car mapToCar(String id, String model, String manufacturer) {
+    public Car mapToCar(Long id, String model, String manufacturer) {
         Car car = new Car();
         car.setId(id);
         car.setModel(model);

@@ -1,7 +1,7 @@
 package za.co.protogen.adapter;
 
 import org.springframework.stereotype.Component;
-import za.co.protogen.model.User;
+import za.co.protogen.persistence.User;
 import za.co.protogen.util.Constants;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class Mappers {
 
-    public User mapToUser(String id, String name, String email) {
+    public User mapToUser(Long id, String name, String email) {
         User user = new User();
         user.setId(id);
         user.setName(name);
