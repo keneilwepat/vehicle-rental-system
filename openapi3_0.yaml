@@ -1,0 +1,344 @@
+openapi: 3.0.0
+info:
+  title: Vehicle Management API
+  version: 1.0.0
+  description: API for managing cars, reservations, and users in a vehicle management system
+  contact:
+    name: API Support
+    url: http://www.vehiclemanagement.com/support
+    email: support@vehiclemanagement.com
+
+servers:
+  - url: https://api.vehiclemanagement.com/v1
+    description: Production server
+  - url: https://staging-api.vehiclemanagement.com/v1
+    description: Staging server
+
+paths:
+  /cars:
+    get:
+      summary: Retrieve a list of cars
+      operationId: getCars
+      tags:
+        - Cars
+      responses:
+        '200':
+          description: A list of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+    post:
+      summary: Add a new car
+      operationId: addCar
+      tags:
+        - Cars
+      requestBody:
+        description: Car object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCar'
+      responses:
+        '201':
+          description: Car successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+
+  /cars/{id}:
+    get:
+      summary: Retrieve a car by ID
+      operationId: getCarById
+      tags:
+        - Cars
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the car to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A car object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        '404':
+          description: Car not found
+    delete:
+      summary: Delete a car by ID
+      operationId: deleteCar
+      tags:
+        - Cars
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the car to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Car successfully deleted
+        '404':
+          description: Car not found
+
+  /reservations:
+    get:
+      summary: Retrieve a list of reservations
+      operationId: getReservations
+      tags:
+        - Reservations
+      responses:
+        '200':
+          description: A list of reservations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+    post:
+      summary: Create a new reservation
+      operationId: createReservation
+      tags:
+        - Reservations
+      requestBody:
+        description: Reservation object that needs to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewReservation'
+      responses:
+        '201':
+          description: Reservation successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+
+  /reservations/{id}:
+    get:
+      summary: Retrieve a reservation by ID
+      operationId: getReservationById
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the reservation to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A reservation object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '404':
+          description: Reservation not found
+    delete:
+      summary: Cancel a reservation by ID
+      operationId: cancelReservation
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the reservation to cancel
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Reservation successfully canceled
+        '404':
+          description: Reservation not found
+
+  /users:
+    get:
+      summary: Retrieve a list of users
+      operationId: getUsers
+      tags:
+        - Users
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Register a new user
+      operationId: registerUser
+      tags:
+        - Users
+      requestBody:
+        description: User object that needs to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /users/{id}:
+    get:
+      summary: Retrieve a user by ID
+      operationId: getUserById
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    delete:
+      summary: Delete a user by ID
+      operationId: deleteUser
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User successfully deleted
+        '404':
+          description: User not found
+
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        make:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Corolla
+        year:
+          type: integer
+          example: 2021
+    NewCar:
+      type: object
+      properties:
+        make:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Corolla
+        year:
+          type: integer
+          example: 2021
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        carId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 10
+        reservationDate:
+          type: string
+          format: date
+          example: 2023-08-15
+    NewReservation:
+      type: object
+      properties:
+        carId:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 10
+        reservationDate:
+          type: string
+          format: date
+          example: 2023-08-15
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john.doe@example.com
+    NewUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john.doe@example.com
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Cars
+    description: Operations related to cars
+  - name: Reservations
+    description: Operations related to reservations
+  - name: Users
+    description: Operations related to users
